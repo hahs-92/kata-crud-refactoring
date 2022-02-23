@@ -3,9 +3,11 @@ package co.com.sofka.crud.entity;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
-public class Todo {
+@Table(name = "Todo")
+public class TodoEntity {
     @Id
     @GeneratedValue
     private Long id;
