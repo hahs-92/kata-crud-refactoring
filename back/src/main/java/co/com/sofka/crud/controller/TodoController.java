@@ -1,6 +1,6 @@
 package co.com.sofka.crud.controller;
 
-import co.com.sofka.crud.entity.Todo;
+import co.com.sofka.crud.dto.TodoDto;
 import co.com.sofka.crud.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,7 @@ public class TodoController {
     private TodoService service;
 
     @GetMapping
-    public ResponseEntity<List<Todo>> list() {
+    public ResponseEntity<List<TodoDto>> list() {
         try {
             return new ResponseEntity<>(service.list(), HttpStatus.OK );
         } catch (Exception e) {
@@ -28,7 +28,7 @@ public class TodoController {
     }
     
     @PostMapping
-    public ResponseEntity<Todo> save(@RequestBody Todo todo){
+    public ResponseEntity<TodoDto> save(@RequestBody TodoDto todo){
         try {
             return  new ResponseEntity<>(service.save(todo), HttpStatus.CREATED);
         } catch (Exception e) {
@@ -37,9 +37,9 @@ public class TodoController {
     }
 
     @PutMapping
-    public ResponseEntity<Todo> update(@RequestBody Todo todo){
+    public ResponseEntity<TodoDto> update(@RequestBody TodoDto todo){
        try {
-           Optional<Todo> todoToUpdate = service.get(todo.getId());
+           Optional<TodoDto> todoToUpdate = service.get(todo.getId());
 
            if(todoToUpdate.isEmpty()){
                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -53,7 +53,7 @@ public class TodoController {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable Long id){
         try {
-            Optional<Todo> todoToDelete = service.get(id);
+            Optional<TodoDto> todoToDelete = service.get(id);
 
             if(todoToDelete.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -67,15 +67,17 @@ public class TodoController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Todo> get(@PathVariable Long id){
+    public ResponseEntity<TodoDto> get(@PathVariable Long id){
         try {
-            Optional<Todo> todo = service.get(id);
+            Optional<TodoDto> todo = service.get(id);
 
             if(todo.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             return new ResponseEntity<>(todo.get(), HttpStatus.OK);
+
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
