@@ -1,9 +1,10 @@
 package co.com.sofka.crud.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "List")
@@ -13,6 +14,24 @@ public class ListEntity {
     private Long id;
 
     private String name;
+
+    @OneToMany(mappedBy = "list", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("list")
+    private List<TodoEntity> todos = new ArrayList<>();
+
+    public ListEntity() {
+    }
+
+    public ListEntity(String name, List<TodoEntity> todos) {
+        this.name = name;
+        this.todos = todos;
+    }
+
+    public ListEntity(Long id, String name, List<TodoEntity> todos) {
+        this.id = id;
+        this.name = name;
+        this.todos = todos;
+    }
 
     public Long getId() {
         return id;
@@ -29,4 +48,14 @@ public class ListEntity {
     public void setName(String name) {
         this.name = name;
     }
+
+    public List<TodoEntity> getTodos() {
+        return todos;
+    }
+
+    public void setTodos(List<TodoEntity> todos) {
+        this.todos = todos;
+    }
+
+
 }

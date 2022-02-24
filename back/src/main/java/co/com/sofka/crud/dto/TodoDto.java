@@ -2,7 +2,6 @@ package co.com.sofka.crud.dto;
 
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class TodoDto {
@@ -12,20 +11,26 @@ public class TodoDto {
     @Size(max = 25, min = 3)
     private String name;
 
-    @NotNull
     private Boolean completed;
 
     @NotBlank
-    private String groupListId;
+    private Long listId;
+
 
     public TodoDto() {
     }
 
-    public TodoDto(Long id, String name, Boolean completed, String groupListId) {
+    public TodoDto(String name, Boolean completed, Long listId) {
+        this.name = name;
+        this.completed = completed;
+        this.listId = listId;
+    }
+
+    public TodoDto(Long id, String name, Boolean completed, Long listId) {
         this.id = id;
         this.name = name;
         this.completed = completed;
-        this.groupListId = groupListId;
+        this.listId = listId;
     }
 
     public Long getId() {
@@ -52,11 +57,12 @@ public class TodoDto {
         this.completed = completed;
     }
 
-    public String getGroupListId() {
-        return groupListId;
+    public Long getListId() {
+        return listId;
     }
 
-    public void setGroupListId(String groupListId) {
-        this.groupListId = groupListId;
+    public void setListId(Long listId) {
+        this.listId = listId;
     }
+
 }

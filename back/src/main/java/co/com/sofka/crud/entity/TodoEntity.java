@@ -1,9 +1,8 @@
 package co.com.sofka.crud.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "Todo")
@@ -12,24 +11,32 @@ public class TodoEntity {
     @GeneratedValue
     private Long id;
     private String name;
-    private boolean completed;
-    private String groupListId;
+    private boolean completed = false;
 
-    public String getGroupListId() {
-        return groupListId;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "list_id", nullable = false)
+    @JsonIgnoreProperties("todos")
+    private ListEntity list;
+
+    public TodoEntity() {
     }
 
-    public void setGroupListId(String groupListId) {
-        this.groupListId = groupListId;
+    public TodoEntity(String name, boolean completed) {
+        this.name = name;
+        this.completed = completed;
+    }
+
+    public TodoEntity(Long id, String name, boolean completed) {
+        this.id = id;
+        this.name = name;
+        this.completed = completed;
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -45,5 +52,13 @@ public class TodoEntity {
 
     public void setCompleted(boolean completed) {
         this.completed = completed;
+    }
+
+    public ListEntity getList() {
+        return list;
+    }
+
+    public void setList(ListEntity list) {
+        this.list = list;
     }
 }

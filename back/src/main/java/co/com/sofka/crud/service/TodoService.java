@@ -1,7 +1,9 @@
 package co.com.sofka.crud.service;
 
 import co.com.sofka.crud.dto.TodoDto;
+import co.com.sofka.crud.entity.ListEntity;
 import co.com.sofka.crud.entity.TodoEntity;
+import co.com.sofka.crud.repository.IListRepository;
 import co.com.sofka.crud.repository.TodoRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,11 @@ public class TodoService {
     private TodoRepository repository;
 
     @Autowired
+    private IListRepository iListRepository;
+
+    @Autowired
     private ModelMapper mapper;
+
 
     public List<TodoDto> list(){
         List<TodoEntity> listTodoEntity = repository.findAll();
@@ -26,7 +32,12 @@ public class TodoService {
     }
 
     public TodoDto save(TodoDto todo){
-        TodoEntity todoEntity = mapper.map(todo, TodoEntity.class);
+        TodoEntity todoEntity = new TodoEntity();
+        todoEntity.setName(mapper.map(todo, TodoEntity.class).getName());
+
+        Optional<ListEntity> listEntity = iListRepository.findById(todo.getListId());
+
+        listEntity.ifPresent(todoEntity::setList);
         return  mapper.map(repository.save(todoEntity), TodoDto.class);
     }
 
