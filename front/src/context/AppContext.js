@@ -4,13 +4,7 @@ import reducer from '../reducer'
 
 const initialState = {
 
-    todo: { list: [
-        {
-            id: 5,
-            name: "test",
-            completed: false,
-        }
-    ], item: {} }
+    todo: { list: [], item: {} }
 }
 
 export const Store = createContext(initialState)

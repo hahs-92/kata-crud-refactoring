@@ -7,17 +7,17 @@ import { Row } from "./Row"
 const HOST_API = "http://localhost:8080/api"
 
 
-export const Table = () => {
-    const { dispatch, state: { todo } } = useContext(Store)
-    const currentList = todo.list
+export const Table = ({ todos }) => {
+    // const { dispatch, state: { todo } } = useContext(Store)
+    // const currentList = todo.list
 
-    useEffect(() => {
-        fetch(`${HOST_API}/todos`)
-        .then(response => response.json())
-        .then((list) => {
-            dispatch({ type: "update-list", list })
-        })
-    }, [dispatch])
+    // useEffect(() => {
+    //     fetch(`${HOST_API}/todos`)
+    //     .then(response => response.json())
+    //     .then((list) => {
+    //         dispatch({ type: "update-list", list })
+    //     })
+    // }, [dispatch])
 
 
     return (
@@ -32,7 +32,7 @@ export const Table = () => {
                 </thead>
                 <tbody>
                     {
-                        currentList.map((todo) => (
+                        todos && todos.map((todo) => (
                             <Row key={todo.id} todo={todo}/>
                         ))
                     }

@@ -2,16 +2,17 @@ import React from 'react'
 //context
 import StoreProvider from './context/AppContext'
 //components
-import { Form } from './components/Form'
-import { Table } from './components/Table'
+import { Dashboard } from './components/Dashboard'
+
 
 
 function App() {
   return (
     <StoreProvider>
-      <h3>To-Do List</h3>
-      <Form />
-      <Table />
+      <main>
+        <header>SofkaU Reto1</header>
+        <Dashboard />
+      </main>
     </StoreProvider>
   )
 }
