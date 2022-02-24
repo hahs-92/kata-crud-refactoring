@@ -1,6 +1,10 @@
 import { useContext, useRef, useState } from "react"
 //context
 import { Store } from "../context/AppContext"
+//url-api
+const HOST_API = "http://localhost:8080/api"
+
+
 
 export const Form = () => {
     const formRef = useRef(null);
