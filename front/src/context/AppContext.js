@@ -7,17 +7,18 @@ const initialState = {
     todo: { list: [], item: {} }
 }
 
-export const store = createContext(initialState)
+export const Store = createContext(initialState)
 
 
-export const storeProvider = ({ children }) => {
+const StoreProvider = ({ children }) => {
 
     const [state, dispatch] = useReducer(reducer, initialState);
 
     return (
-        <store.Provider value={{ state, dispatch }}>
+        <Store.Provider value={{ state, dispatch }}>
             { children }
-        </store.Provider>
+        </Store.Provider>
     )
-
 }
+
+export default StoreProvider
