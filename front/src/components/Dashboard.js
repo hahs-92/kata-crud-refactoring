@@ -1,9 +1,14 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 //components
 import { List } from './List'
+import { Form } from "./Form"
+
+//url-api
+const HOST_API = "http://localhost:8080/api"
 
 
 export const Dashboard = () => {
+    const [ newList, setNewList] = useState("")
     const [ list, setList] = useState([
         {
             id: 1,
@@ -40,17 +45,67 @@ export const Dashboard = () => {
 
     ])
 
+    const getList = async() => {
+        try {
+            const resp = await fetch(`${HOST_API}/lists`)
+            const listResp = await resp.json()
+
+            setList(listResp)
+        }catch(e) {
+            console.error(e)
+        }
+    }
+
+    const addNewList = async() => {
+        try {
+            const resp = await fetch(`${HOST_API}/lists`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name: newList}),
+            })
+
+            const listcreated = await resp.json()
+
+
+            if(resp.status === "201") {
+                setList(list.concat(listcreated))
+            }
+
+            setNewList("")
+        } catch(e) {
+            console.error(e)
+        }
+    }
+
+
+    useEffect(() => {
+        getList()
+    },[])
+
     return(
         <section>
-            <form>
-                <input type="text" placeholder="Ingresa el nombre de una lista" />
-                <input type="submit" value="New List"/>
-            </form>
+            <section>
+                <Form
+                    valueTitle="Crear Lista"
+                    placeholder="Ingresa una lista"
+                    value={newList}
+                    setValue={setNewList}
+                    cb={addNewList}
+                />
+            </section>
 
             <section>
                 {
                     list && list.map(l => (
-                        <List key={l.id} todos={ l.todos} name={l.name}/>
+                        <List
+                            key={l.id}
+                            listId={l.id}
+                            todos={ l.todos}
+                            name={l.name}
+                            setList={setList}
+                        />
                     ))
                 }
             </section>

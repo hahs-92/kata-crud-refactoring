@@ -1,84 +1,28 @@
-import { useContext, useRef, useState } from "react"
-//context
-import { Store } from "../context/AppContext"
-//url-api
-const HOST_API = "http://localhost:8080/api"
+export const Form = ({
+     placeholder, valueTitle, value,setValue, cb
+    }) => {
 
-
-
-export const Form = () => {
-    const formRef = useRef(null);
-    const { dispatch, state: { todo } } = useContext(Store)
-    const item = todo.item
-    const [state, setState] = useState(item)
-
-    const onAdd = (event) => {
-
-        event.preventDefault()
-
-        const request = {
-            name: state.name,
-            id: null,
-            completed: false
-            }
-
-
-        fetch(`${HOST_API}/todos`, {
-            method: "POST",
-            body: JSON.stringify(request),
-            headers: {
-            'Content-Type': 'application/json'
-            }
-        })
-        .then(response => response.json())
-        .then((todo) => {
-            dispatch({ type: "add-item", item: todo })
-            setState({ name: "" })
-            formRef.current.reset()
-        })
+    const handleOnChange = (e) => {
+        setValue(e.target.value)
     }
 
-    const onEdit = (event) => {
-
-        event.preventDefault()
-
-        const request = {
-            id: item.id,
-            name: state.name,
-            isCompleted: item.isCompleted
-        }
-
-
-        fetch(`${HOST_API}/todos`, {
-            method: "PUT",
-            body: JSON.stringify(request),
-            headers: {
-            'Content-Type': 'application/json'
-            }
-        })
-        .then(response => response.json())
-        .then((todo) => {
-            dispatch({ type: "update-item", item: todo })
-            setState({ name: "" })
-            formRef.current.reset()
-        })
+    const handleOnSubmit = (e) => {
+        e.preventDefault()
+        cb()
     }
 
     return (
-        <form ref={formRef}>
+        <form onSubmit={ handleOnSubmit }>
         <input
             type="text"
             name="name"
-            placeholder="¿Qué piensas hacer hoy?"
-            defaultValue={item.name}
-            onChange={(event) => {
-            setState({ ...state, name: event.target.value })
-            }}
+            placeholder={ placeholder }
+            value={value}
+            onChange={handleOnChange}
         >
         </input>
 
-        {item.id && <button onClick={onEdit}>Actualizar</button>}
-        {!item.id && <button onClick={onAdd}>Crear</button>}
+        <input type="submit"  value={ valueTitle } />
 
         </form>
     )
