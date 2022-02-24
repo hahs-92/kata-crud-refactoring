@@ -39,6 +39,11 @@ export const Row = ({todo}) => {
             dispatch({ type: "update-item", item: todo })
         })
     }
+
+    const decorationDone = {
+        textDecoration: 'line-through'
+    }
+
     return(
         <tr key={todo.id} style={todo.completed ? decorationDone : {}}>
             <td>{todo.id}</td>

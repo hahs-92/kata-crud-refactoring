@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react"
+import React,{ useContext, useEffect } from "react"
 //context
 import { Store } from "../context/AppContext"
 //components
@@ -20,10 +20,6 @@ export const Table = () => {
     }, [dispatch])
 
 
-    const decorationDone = {
-        textDecoration: 'line-through'
-    }
-
     return (
         <div>
             <table >
@@ -43,6 +39,5 @@ export const Table = () => {
                 </tbody>
             </table>
       </div>
-
     )
 }

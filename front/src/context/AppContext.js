@@ -1,10 +1,16 @@
-import { createContext } from 'react'
+import { createContext, useReducer } from 'react'
 //reducer
 import reducer from '../reducer'
 
 const initialState = {
 
-    todo: { list: [], item: {} }
+    todo: { list: [
+        {
+            id: 5,
+            name: "test",
+            completed: false,
+        }
+    ], item: {} }
 }
 
 export const Store = createContext(initialState)

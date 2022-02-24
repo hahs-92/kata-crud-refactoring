@@ -1,6 +1,6 @@
-import React, { useContext,useEffect } from 'react'
+import React from 'react'
 //context
-import StoreProvider, { Store } from './context/AppContext'
+import StoreProvider from './context/AppContext'
 //components
 import { Form } from './components/Form'
 import { Table } from './components/Table'
