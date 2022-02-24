@@ -23,7 +23,7 @@ export const Form = () => {
             }
 
 
-        fetch(HOST_API + "/todos", {
+        fetch(`${HOST_API}/todos`, {
             method: "POST",
             body: JSON.stringify(request),
             headers: {
@@ -49,7 +49,7 @@ export const Form = () => {
         }
 
 
-        fetch(HOST_API + "/todos", {
+        fetch(`${HOST_API}/todos`, {
             method: "PUT",
             body: JSON.stringify(request),
             headers: {
