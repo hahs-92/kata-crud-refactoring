@@ -35,11 +35,25 @@ export const List = ({listId, name, todos, setList}) => {
         }
     }
 
+    const deleteList = async() => {
+        try {
+            const resp = await fetch(`${HOST_API}/list/${listId}`, {
+                method: "DELETE"
+            })
+
+            if(resp.status === "204") {
+                setList(prev => prev.filter(list => list.id !== listId))
+            }
+        } catch(e) {
+            console.error(e)
+        }
+    }
+
     return(
         <article>
             <section>
                 <h2>{name}</h2>
-                <h2>Eliminar</h2>
+                <img src="" alt="remove-icon" onClick={deleteList}/>
             </section>
 
             <section>
