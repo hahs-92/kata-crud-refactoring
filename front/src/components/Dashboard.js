@@ -6,6 +6,8 @@ import { addList, setError } from '../actions'
 //components
 import { List } from './List'
 import { Form } from "./Form"
+//styles
+import style from '../styles/components/Dashboard.module.css'
 
 //url-api
 const HOST_API = "http://192.168.0.105:8081/api"
@@ -50,16 +52,17 @@ export const Dashboard = () => {
 
 
     return(
-        <section>
-            <section>
-                <Form
-                    valueTitle={ loading ? "Loading" : "Crear"}
-                    placeholder="Ingresa una lista"
-                    value={newList}
-                    setValue={setNewList}
-                    cb={addNewList}
-                />
-            </section>
+        <main className={ style.Dashboard }>
+            <h1 className={style.Dashboard_Title }>Lista de Todos</h1>
+            <hr className={ style.Dashboard_Hr} />
+
+            <Form
+                valueTitle={ loading ? "Loading" : "Crear"}
+                placeholder="Ingresa una lista"
+                value={newList}
+                setValue={setNewList}
+                cb={addNewList}
+            />
 
             <section>
                 { error && <h2>{error}</h2>}
@@ -77,6 +80,6 @@ export const Dashboard = () => {
                     :  <h2>No hay ninguna lista, crea una!</h2>
                 }
             </section>
-        </section>
+        </main>
     )
 }

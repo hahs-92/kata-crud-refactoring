@@ -1,0 +1,14 @@
+.Dashboard {
+    width: 90%;
+    max-width: 50rem;
+}
+
+.Dashboard_Title {
+    margin: 2rem 0;
+}
+
+.Dashboard_Hr {
+    height: 1.5px;
+    background-color: var(--cta-color);
+    border: none;
+}

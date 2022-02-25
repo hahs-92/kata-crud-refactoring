@@ -1,3 +1,5 @@
+import style from '../styles/components/Form.module.css'
+
 export const Form = ({
      placeholder, valueTitle, value,setValue, cb
     }) => {
@@ -12,8 +14,9 @@ export const Form = ({
     }
 
     return (
-        <form onSubmit={ handleOnSubmit }>
+        <form className={style.Form } onSubmit={ handleOnSubmit }>
         <input
+            className={style.Form_Input}
             type="text"
             name="name"
             placeholder={ placeholder }
@@ -22,7 +25,7 @@ export const Form = ({
         >
         </input>
 
-        <input type="submit"  value={ valueTitle } />
+        <input className={style.Form_Button } type="submit"  value={ valueTitle } />
 
         </form>
     )

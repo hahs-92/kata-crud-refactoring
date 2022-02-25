@@ -13,11 +13,11 @@ function App() {
   return (
     <div className={ style.App }>
       <Header />
-      <main>
+
       <StoreProvider>
         <Dashboard />
       </StoreProvider>
-    </main>
+
     </div>
 
   )

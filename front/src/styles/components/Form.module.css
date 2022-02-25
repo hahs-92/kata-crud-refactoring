@@ -1,0 +1,36 @@
+.Form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 3rem 0;
+    width: 100%;
+    min-height: 15rem;
+}
+
+.Form input {
+    padding: 0 1rem;
+    width: 100%;
+    height: 4rem;
+    border-radius: 1rem;
+    border: 1px solid var(--secundary-color);
+}
+
+
+.Form_Button {
+    border: none;
+    background-color: var(--secundary-color);
+    color: var(--primary-color);
+    font-size: 1.8rem;
+    cursor: pointer;
+}
+
+@media (min-width: 450px) {
+
+    .Form_Input {
+        max-width: 70%;
+    }
+
+    .Form_Button {
+        max-width: 25%;
+    }
+}
