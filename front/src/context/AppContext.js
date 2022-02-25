@@ -3,8 +3,7 @@ import { createContext, useReducer } from 'react'
 import reducer from '../reducer'
 
 const initialState = {
-
-    todo: { list: [], item: {} }
+    lists: []
 }
 
 export const Store = createContext(initialState)

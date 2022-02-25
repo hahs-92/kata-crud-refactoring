@@ -14,7 +14,7 @@ public class TodoEntity {
     private boolean completed = false;
 
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "list_id", nullable = false)
     @JsonIgnoreProperties("todos") //evita un bucle en la respuesta del json
     private ListEntity list;

@@ -7,7 +7,11 @@ const HOST_API = "http://localhost:8080/api"
 
 
 export const List = ({listId, name, todos, setList}) => {
-    const [ newTodo, setNewTodo] = useState("")
+
+    const [ todoItem, setTodoItem] = useState("")
+    const [editing, setEditing] = useState(false)
+    const [ check, setCheck] = useState(false)
+    const [ todoUpate, setTodoUpdate] = useState({id:null, name: "", completed: false, listId: listId})
 
     const addNewTodo = async () => {
         try {
@@ -17,7 +21,7 @@ export const List = ({listId, name, todos, setList}) => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(
-                    {name: newTodo,listId}
+                    {name: todoItem,listId}
                 ),
             })
 
@@ -27,9 +31,9 @@ export const List = ({listId, name, todos, setList}) => {
             if(resp.status === "201") {
                 setList(prev => prev[listId].todos.concat(todoCreated))
             }
-            console.log({name: newTodo,listId})
+            console.log({name: todoItem,listId})
 
-            setNewTodo("")
+            setTodoItem("")
         } catch(e) {
             console.error(e)
         }
@@ -37,7 +41,7 @@ export const List = ({listId, name, todos, setList}) => {
 
     const deleteList = async() => {
         try {
-            const resp = await fetch(`${HOST_API}/list/${listId}`, {
+            const resp = await fetch(`${HOST_API}/lists/${listId}`, {
                 method: "DELETE"
             })
 
@@ -49,6 +53,36 @@ export const List = ({listId, name, todos, setList}) => {
         }
     }
 
+
+    const editTodo = async()  => {
+
+        setTodoUpdate({
+        ...todoUpate,
+            name: todoItem
+        })
+
+        try {
+            const resp =  await fetch(`${HOST_API}/todos`, {
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(todoUpate),
+            })
+
+            if(resp.status === "204") {
+                setList(prev => prev[listId].todos.map(t => t.id === todoUpate.id ? todoUpate : t))
+            }
+
+            setTodoItem("")
+            setEditing(false)
+
+        } catch(e) {
+            console.error(e)
+        }
+    }
+
+
     return(
         <article>
             <section>
@@ -58,16 +92,23 @@ export const List = ({listId, name, todos, setList}) => {
 
             <section>
                 <Form
-                    valueTitle="Crear Todo"
+                    valueTitle={ editing ? "Editar" : "Crear"}
                     placeholder="Ingresa un todo"
-                    value={newTodo}
-                    setValue={setNewTodo}
-                    cb={addNewTodo}
+                    value={ todoItem }
+                    setValue={setTodoItem}
+                    cb={editing ? editTodo : addNewTodo}
                 />
             </section>
 
             <section>
-                <Table todos={ todos }/>
+                <Table
+                    todos={ todos }
+                    setList={setList}
+                    listId={listId}
+                    setEditing={setEditing}
+                    setItem={setTodoItem}
+                    setTodoUpdate={ setTodoUpdate}
+                />
             </section>
 
         </article>

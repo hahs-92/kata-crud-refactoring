@@ -15,7 +15,7 @@ public class ListEntity {
 
     private String name;
 
-    @OneToMany(mappedBy = "list", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "list", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnoreProperties("list")
     private List<TodoEntity> todos = new ArrayList<>();
 

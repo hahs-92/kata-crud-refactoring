@@ -6,44 +6,45 @@ import { Form } from "./Form"
 //url-api
 const HOST_API = "http://localhost:8080/api"
 
+const data = [
+    {
+        id: 1,
+        name: "list test",
+        todos: [
+            {
+                id: 10,
+                name: "todo test",
+                completed: false
+            },
+            {
+                id: 50,
+                name: "todo test 2",
+                completed: true
+            }
+        ]
+    },
+    {
+        id: 2,
+        name: "list test",
+        todos: [
+            {
+                id: 10,
+                name: "todo test",
+                completed: false
+            }
+        ]
+    },
+    {
+        id: 5,
+        name: "list trty",
+        todos: []
+    }
+]
+
 
 export const Dashboard = () => {
     const [ newList, setNewList] = useState("")
-    const [ list, setList] = useState([
-        {
-            id: 1,
-            name: "list test",
-            todos: [
-                {
-                    id: 10,
-                    name: "todo test",
-                    completed: false
-                },
-                {
-                    id: 50,
-                    name: "todo test 2",
-                    completed: true
-                }
-            ]
-        },
-        {
-            id: 2,
-            name: "list test",
-            todos: [
-                {
-                    id: 10,
-                    name: "todo test",
-                    completed: false
-                }
-            ]
-        },
-        {
-            id: 5,
-            name: "list trty",
-            todos: []
-        }
-
-    ])
+    const [ list, setList] = useState([])
 
     const getList = async() => {
         try {
