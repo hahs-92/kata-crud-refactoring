@@ -10,41 +10,6 @@ import { Form } from "./Form"
 //url-api
 const HOST_API = "http://192.168.0.105:8081/api"
 
-const data = [
-    {
-        id: 1,
-        name: "list test",
-        todos: [
-            {
-                id: 10,
-                name: "todo test",
-                completed: false
-            },
-            {
-                id: 50,
-                name: "todo test 2",
-                completed: true
-            }
-        ]
-    },
-    {
-        id: 2,
-        name: "list test",
-        todos: [
-            {
-                id: 10,
-                name: "todo test",
-                completed: false
-            }
-        ]
-    },
-    {
-        id: 5,
-        name: "list trty",
-        todos: []
-    }
-]
-
 
 export const Dashboard = () => {
     const { state: { lists, error }, dispatch } = useContext(Store)

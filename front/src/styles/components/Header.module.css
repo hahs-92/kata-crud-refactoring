@@ -1,0 +1,14 @@
+.Header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 9rem;
+    width: 100%;
+    max-width: 120rem;
+    background-color: var(--primary-color);
+    color: var(--bg);
+}
+
+.Header_Wrapper {
+    width: 90%;
+}
