@@ -64,7 +64,7 @@ export const Dashboard = () => {
                 cb={addNewList}
             />
 
-            <section>
+            <>
                 { error && <h2>{error}</h2>}
                 {
                     (!error  && lists.length)
@@ -79,7 +79,7 @@ export const Dashboard = () => {
                         ))
                     :  <h2>No hay ninguna lista, crea una!</h2>
                 }
-            </section>
+            </>
         </main>
     )
 }

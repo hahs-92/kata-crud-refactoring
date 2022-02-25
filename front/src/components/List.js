@@ -6,8 +6,13 @@ import { deleteList, addTodo, editTodo } from '../actions'
 //components
 import { Table } from './Table'
 import { Form } from './Form'
+//styles
+import style from '../styles/components/List.module.css'
+//assets
+import removeIcon from '../assets/remove.png'
 //url-api
 const HOST_API = "http://192.168.0.105:8081/api"
+
 
 
 export const List = ({listId, name, todos}) => {
@@ -97,23 +102,21 @@ export const List = ({listId, name, todos}) => {
 
 
     return(
-        <article>
-            <section>
+        <article className={ style.List } >
+            <header  className={ style.List_Header }>
                 <h2>{name}</h2>
-                <img src="" alt="remove-icon" onClick={onDeleteList}/>
-            </section>
+                <img src={removeIcon} alt="remove-icon" onClick={onDeleteList}/>
+            </header>
 
-            <section>
-                <Form
-                    valueTitle={ loading ? "Loading..." :  editing ? "Editar" : "Crear" }
-                    placeholder="Ingresa un todo"
-                    value={ item }
-                    setValue={ setItem }
-                    cb={editing ? onEditTodo : addNewTodo}
-                />
-            </section>
+            <Form
+                valueTitle={ loading ? "Loading..." :  editing ? "Editar" : "Crear" }
+                placeholder="Ingresa un todo"
+                value={ item }
+                setValue={ setItem }
+                cb={editing ? onEditTodo : addNewTodo}
+            />
 
-            <section>
+            <>
                 {
                     todos
                         && <Table
@@ -125,7 +128,7 @@ export const List = ({listId, name, todos}) => {
                         />
                 }
 
-            </section>
+            </>
 
         </article>
     )

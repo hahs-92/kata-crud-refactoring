@@ -1,0 +1,21 @@
+.List  {
+    position: relative;
+    padding: 1rem;
+    margin: 3rem 0 5rem 0;
+    background-color: var(--secundary-color);
+    border-radius: 1rem;
+}
+
+.List_Header {
+    position: absolute;
+    top: -30px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.List_Header img {
+    margin: 1rem 0;
+    width: 4rem;
+}
