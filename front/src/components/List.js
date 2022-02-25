@@ -7,7 +7,7 @@ import { deleteList, addTodo } from '../actions'
 import { Table } from './Table'
 import { Form } from './Form'
 //url-api
-const HOST_API = "http://localhost:8080/api"
+const HOST_API = "http://192.168.0.105:8081/api"
 
 
 export const List = ({listId, name, todos}) => {
@@ -33,6 +33,7 @@ export const List = ({listId, name, todos}) => {
 
     const addNewTodo = async () => {
         setLoading(true)
+        console.log("todo to create: ", item)
         try {
             const resp = await fetch(`${HOST_API}/todos`, {
                 method: "POST",
@@ -47,7 +48,7 @@ export const List = ({listId, name, todos}) => {
             const todoCreated = await resp.json()
 
             if(resp.status === 201) {
-               dispatch(addTodo(todoCreated))
+               dispatch(addTodo({ listId: listId, todo: todoCreated}))
                setLoading(false)
             }
 
@@ -111,13 +112,17 @@ export const List = ({listId, name, todos}) => {
             </section>
 
             <section>
-                <Table
-                    todos={ todos }
-                    listId={listId}
-                    setEditing={ setEditing }
-                    setItemUpdate={ setItemUpdate }
-                    setItem={ setItem }
-                />
+                {
+                    todos
+                        && <Table
+                            todos={ todos }
+                            listId={listId}
+                            setEditing={ setEditing }
+                            setItemUpdate={ setItemUpdate }
+                            setItem={ setItem }
+                        />
+                }
+
             </section>
 
         </article>

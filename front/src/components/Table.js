@@ -6,7 +6,7 @@ import { deleteTodo, editTodo } from '../actions'
 //components
 import { Row } from "./Row"
 //api-url
-const HOST_API = "http://localhost:8080/api"
+const HOST_API = "http://192.168.0.105:8081/api"
 
 export const Table = ({todos, listId, setEditing, setItemUpdate, setItem}) => {
     const { dispatch } = useContext(Store)
@@ -17,7 +17,7 @@ export const Table = ({todos, listId, setEditing, setItemUpdate, setItem}) => {
                 method: "DELETE"
             })
 
-            if(resp.status === "204") {
+            if(resp.status === 204) {
                 dispatch(deleteTodo({ id: todoId, listId: listId}))
             }
 
@@ -72,15 +72,17 @@ export const Table = ({todos, listId, setEditing, setItemUpdate, setItem}) => {
                 </thead>
                 <tbody>
                     {
-                        todos && todos.map((todo) => (
-                            <Row
-                                key={todo.id}
-                                todo={todo}
-                                onDelete={ onDeleteTodo }
-                                onEditItemTodo= { onEditItemTodo}
-                                onEditCompletedTodo={ onEditCompletedTodo}
-                            />
-                        ))
+                        (todos && todos.length)
+                            ? todos.map((todo) => (
+                                <Row
+                                    key={todo.id}
+                                    todo={todo}
+                                    onDelete={ onDeleteTodo }
+                                    onEditItemTodo= { onEditItemTodo}
+                                    onEditCompletedTodo={ onEditCompletedTodo}
+                                />
+                            ))
+                            : <span>Crea tu primer todo</span>
                     }
                 </tbody>
             </table>

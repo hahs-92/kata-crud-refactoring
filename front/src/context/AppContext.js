@@ -5,7 +5,7 @@ import reducer from '../reducer'
 import {setInitialState, setError, setLoading} from '../actions'
 
 //api-url
-const HOST_API = "http://localhost:8080/api"
+const HOST_API = "http://192.168.0.105:8081/api"
 
 const initialState = {
     lists: [],

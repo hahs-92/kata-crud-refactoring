@@ -44,7 +44,7 @@ public class TodoController {
            if(todoToUpdate.isEmpty()){
                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
            }
-           return new ResponseEntity<>( service.save(todo), HttpStatus.OK);
+           return new ResponseEntity<>( service.update(todo), HttpStatus.OK);
        } catch (Exception e) {
            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
        }

@@ -8,7 +8,7 @@ import { List } from './List'
 import { Form } from "./Form"
 
 //url-api
-const HOST_API = "http://localhost:8080/api"
+const HOST_API = "http://192.168.0.105:8081/api"
 
 const data = [
     {
@@ -94,7 +94,7 @@ export const Dashboard = () => {
                 { error && <h2>{error}</h2>}
                 { loading && <h2>Loading...</h2>}
                 {
-                    (!error && !loading && lists)
+                    (!error && !loading && lists.length)
                     ?
                         lists.map(l => (
                             <List
@@ -104,7 +104,7 @@ export const Dashboard = () => {
                                 name={l.name}
                             />
                         ))
-                    : <h2>Crea la primera lista!</h2>
+                    :  <h2>No hay ninguna lista, crea una!</h2>
                 }
             </section>
         </section>

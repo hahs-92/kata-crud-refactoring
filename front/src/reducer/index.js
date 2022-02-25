@@ -45,7 +45,7 @@ function reducer(state, action) {
                     ...list,
                     todos: [
                         ...list.todos,
-                        action.payload
+                        action.payload.todo
                     ]
                     }
                     : list

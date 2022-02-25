@@ -41,6 +41,16 @@ public class TodoService {
         return  mapper.map(repository.save(todoEntity), TodoDto.class);
     }
 
+    public TodoDto update(TodoDto todoDto) {
+        TodoEntity updateTodo = repository.findById(todoDto.getId())
+                .map(todo -> {
+                    todo.setName(todoDto.getName());
+                    todo.setCompleted(todoDto.getCompleted());
+                    return repository.save(todo);
+                }).orElse(null);
+        return mapper.map(updateTodo, TodoDto.class);
+    }
+
     public void delete(Long id){
         repository.deleteById(id);
     }
