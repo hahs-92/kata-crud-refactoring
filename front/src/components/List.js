@@ -2,7 +2,7 @@ import { useState, useContext } from 'react'
 //context -store
 import {  Store } from '../context/AppContext'
 //actions
-import { deleteList, addTodo } from '../actions'
+import { deleteList, addTodo, editTodo } from '../actions'
 //components
 import { Table } from './Table'
 import { Form } from './Form'
@@ -32,6 +32,7 @@ export const List = ({listId, name, todos}) => {
     }
 
     const addNewTodo = async () => {
+        if(!item.trim()) return false
         setLoading(true)
         console.log("todo to create: ", item)
         try {
@@ -61,8 +62,9 @@ export const List = ({listId, name, todos}) => {
 
 
 
-    const editTodo = async()  => {
+    const onEditTodo = async()  => {
         setLoading(true)
+
         try {
             const resp =  await fetch(`${HOST_API}/todos`, {
                 method: "PUT",
@@ -72,13 +74,13 @@ export const List = ({listId, name, todos}) => {
                 body: JSON.stringify({
                     ...itemUpdate,
                     name: item
-                }),
+                })
             })
 
             if(resp.status ===  200) {
                 dispatch(editTodo({
                     listId: listId,
-                    todo: itemUpdate
+                    todo: { ...itemUpdate, name: item}
                 }))
                 setLoading(false)
             }
@@ -107,7 +109,7 @@ export const List = ({listId, name, todos}) => {
                     placeholder="Ingresa un todo"
                     value={ item }
                     setValue={ setItem }
-                    cb={editing ? editTodo : addNewTodo}
+                    cb={editing ? onEditTodo : addNewTodo}
                 />
             </section>
 

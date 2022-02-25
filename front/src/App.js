@@ -8,13 +8,14 @@ import { Dashboard } from './components/Dashboard'
 
 function App() {
   return (
-      <main>
-        <header>SofkaU Reto1</header>
+    <StoreProvider>
+        <main>
+          <header>SofkaU Reto1</header>
 
-        <StoreProvider>
           <Dashboard />
-        </StoreProvider>
-      </main>
+
+        </main>
+    </StoreProvider>
   )
 }
 

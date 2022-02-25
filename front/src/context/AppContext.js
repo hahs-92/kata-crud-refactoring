@@ -9,7 +9,6 @@ const HOST_API = "http://192.168.0.105:8081/api"
 
 const initialState = {
     lists: [],
-    itemTodo: {},
     error: null,
     loading: false
 }

@@ -2,7 +2,7 @@ import { useState, useContext } from "react"
 //context -store
 import { Store } from '../context/AppContext'
 //actions
-import { addList,setLoading, setError } from '../actions'
+import { addList, setError } from '../actions'
 //components
 import { List } from './List'
 import { Form } from "./Form"
@@ -47,12 +47,15 @@ const data = [
 
 
 export const Dashboard = () => {
-    const { state: { lists, error, loading }, dispatch } = useContext(Store)
+    const { state: { lists, error }, dispatch } = useContext(Store)
+    const [ loading, setLoading ] = useState(false)
     const [ newList, setNewList] = useState("")
 
 
     const addNewList = async() => {
-        dispatch(setLoading(true))
+        if(!newList.trim()) return false
+
+        setLoading(true)
         try {
             const resp = await fetch(`${HOST_API}/lists`, {
                 method: "POST",
@@ -65,14 +68,17 @@ export const Dashboard = () => {
             const listcreated = await resp.json()
 
             if(resp.status === 201) {
-                dispatch(addList(listcreated))
-                dispatch(setLoading(false))
+                dispatch(addList({
+                    ...listcreated,
+                    todos: []
+                }))
+                setLoading(false)
             }
 
 
             setNewList("")
         } catch(e) {
-            dispatch(setLoading(false))
+            setLoading(false)
             dispatch(setError("SomeThing went wrong"))
         }
     }
@@ -92,9 +98,8 @@ export const Dashboard = () => {
 
             <section>
                 { error && <h2>{error}</h2>}
-                { loading && <h2>Loading...</h2>}
                 {
-                    (!error && !loading && lists.length)
+                    (!error  && lists.length)
                     ?
                         lists.map(l => (
                             <List

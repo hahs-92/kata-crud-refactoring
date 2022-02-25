@@ -35,13 +35,14 @@ export const Table = ({todos, listId, setEditing, setItemUpdate, setItem}) => {
     }
 
     const onEditCompletedTodo = async(todo) => {
+
         try {
             const resp =  await fetch(`${HOST_API}/todos`, {
                 method: "PUT",
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({todo}),
+                body: JSON.stringify(todo),
             })
 
             if(resp.status ===  200) {
@@ -52,7 +53,7 @@ export const Table = ({todos, listId, setEditing, setItemUpdate, setItem}) => {
             }
 
             setEditing(false)
-            setItem("")
+            //setItem("")
             setItemUpdate({id: null, name: "", completed: false, listId: listId})
 
         } catch(e) {
