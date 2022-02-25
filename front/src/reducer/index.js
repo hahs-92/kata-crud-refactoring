@@ -4,6 +4,26 @@ import { actionTypes } from '../actions/actionTypes'
 
 function reducer(state, action) {
     switch (action.type) {
+        case actionTypes.SET_INITIAL_STATE:
+            return {
+                ...state,
+                lists: action.payload
+            }
+        case actionTypes.SET_ITEM_TODO:
+            return {
+                ...state,
+                itemTodo: action.payload
+            }
+        case actionTypes.SET_ERROR:
+            return {
+                ...state,
+                error: action.payload
+            }
+        case actionTypes.SET_LOADING:
+            return {
+                ...state,
+                loading: action.payload
+            }
         case actionTypes.ADD_LIST:
             return {
                 ...state,
@@ -38,7 +58,7 @@ function reducer(state, action) {
                 lists: [
                     ...state.lists,
                     state.lists[listIndex].todos = state.lists[listIndex].todos
-                        .map(todo => todo.id === action.payload.id ? action.payload : todo)
+                        .map(todo => todo.id === action.payload.todo.id ? action.payload.todo : todo)
                 ]
             }
         case actionTypes.DELETE_TODO:

@@ -1,58 +1,64 @@
+import {  useContext } from 'react'
+//context-stroe
+import {  Store } from '../context/AppContext'
+//actions
+import { deleteTodo, editTodo } from '../actions'
 //components
 import { Row } from "./Row"
 //api-url
 const HOST_API = "http://localhost:8080/api"
 
-export const Table = ({
-    todos, setList, listId,setEditing, setTodoUpdate, setItem
-}) => {
+export const Table = ({todos, listId, setEditing, setItemUpdate, setItem}) => {
+    const { dispatch } = useContext(Store)
 
-    const deleteTodo = async(idTodo) => {
-
+    const onDeleteTodo = async(todoId) => {
         try {
-            const resp = await fetch(`${HOST_API}/todos/${idTodo}`, {
+            const resp = await fetch(`${HOST_API}/todos/${todoId}`, {
                 method: "DELETE"
             })
 
-            // if(resp.status === "204") {
-            //     setList(prev => prev[listId].todos.filter(todo => todo.id !== idTodo))
-            // }
+            if(resp.status === "204") {
+                dispatch(deleteTodo({ id: todoId, listId: listId}))
+            }
 
         } catch(e) {
             console.error(e)
         }
     }
 
-    const activeUpdate = (todo) => {
+
+    const onEditItemTodo = (todo) => {
         setEditing(true)
+        setItemUpdate(todo)
         setItem(todo.name)
-        setTodoUpdate(todo)
+
     }
 
-    // const editTodo = async(todo) => {
+    const onEditCompletedTodo = async(todo) => {
+        try {
+            const resp =  await fetch(`${HOST_API}/todos`, {
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({todo}),
+            })
 
-    //     todo.name = todoItem
+            if(resp.status ===  200) {
+                dispatch(editTodo({
+                    listId: listId,
+                    todo: todo
+                }))
+            }
 
-    //     try {
-    //         const resp =  await fetch(`${HOST_API}/todos`, {
-    //             method: "PUT",
-    //             headers: {
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             body: JSON.stringify(todo),
-    //         })
+            setEditing(false)
+            setItem("")
+            setItemUpdate({id: null, name: "", completed: false, listId: listId})
 
-    //         if(resp.status === "204") {
-    //             setList(prev => prev[listId].todos.map(t => t.id === todo.id ? todo : t))
-    //         }
-
-    //         setTodoItem("")
-    //         setEditing(false)
-
-    //     } catch(e) {
-    //         console.error(e)
-    //     }
-    // }
+        } catch(e) {
+            console.error(e)
+        }
+    }
 
     return (
         <div>
@@ -70,8 +76,9 @@ export const Table = ({
                             <Row
                                 key={todo.id}
                                 todo={todo}
-                                onDelete={ deleteTodo }
-                                activeUpdate={activeUpdate}
+                                onDelete={ onDeleteTodo }
+                                onEditItemTodo= { onEditItemTodo}
+                                onEditCompletedTodo={ onEditCompletedTodo}
                             />
                         ))
                     }

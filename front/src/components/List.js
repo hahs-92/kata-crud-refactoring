@@ -1,19 +1,38 @@
+import { useState, useContext } from 'react'
+//context -store
+import {  Store } from '../context/AppContext'
+//actions
+import { deleteList, addTodo } from '../actions'
 //components
 import { Table } from './Table'
 import { Form } from './Form'
-import { useState } from 'react/cjs/react.development'
 //url-api
 const HOST_API = "http://localhost:8080/api"
 
 
-export const List = ({listId, name, todos, setList}) => {
+export const List = ({listId, name, todos}) => {
+    const { dispatch } = useContext(Store)
+    const [ editing, setEditing ] = useState(false)
+    const [ loading, setLoading ] = useState(false)
+    const [ item, setItem ] = useState("")
+    const [ itemUpdate, setItemUpdate] = useState({id: null, name:"", completed:false, listId: listId})
 
-    const [ todoItem, setTodoItem] = useState("")
-    const [editing, setEditing] = useState(false)
-    const [ check, setCheck] = useState(false)
-    const [ todoUpate, setTodoUpdate] = useState({id:null, name: "", completed: false, listId: listId})
+    const onDeleteList = async() => {
+        try {
+            const resp = await fetch(`${HOST_API}/lists/${listId}`, {
+                method: "DELETE"
+            })
+
+            if(resp.status === 204) {
+                dispatch(deleteList(listId))
+            }
+        } catch(e) {
+            console.log(e)
+        }
+    }
 
     const addNewTodo = async () => {
+        setLoading(true)
         try {
             const resp = await fetch(`${HOST_API}/todos`, {
                 method: "POST",
@@ -21,63 +40,54 @@ export const List = ({listId, name, todos, setList}) => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(
-                    {name: todoItem,listId}
+                    {name: item,listId}
                 ),
             })
 
             const todoCreated = await resp.json()
 
-
-            if(resp.status === "201") {
-                setList(prev => prev[listId].todos.concat(todoCreated))
+            if(resp.status === 201) {
+               dispatch(addTodo(todoCreated))
+               setLoading(false)
             }
-            console.log({name: todoItem,listId})
 
-            setTodoItem("")
+            setItem("")
+
         } catch(e) {
-            console.error(e)
+            setLoading(false)
         }
     }
 
-    const deleteList = async() => {
-        try {
-            const resp = await fetch(`${HOST_API}/lists/${listId}`, {
-                method: "DELETE"
-            })
-
-            if(resp.status === "204") {
-                setList(prev => prev.filter(list => list.id !== listId))
-            }
-        } catch(e) {
-            console.error(e)
-        }
-    }
 
 
     const editTodo = async()  => {
-
-        setTodoUpdate({
-        ...todoUpate,
-            name: todoItem
-        })
-
+        setLoading(true)
         try {
             const resp =  await fetch(`${HOST_API}/todos`, {
                 method: "PUT",
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(todoUpate),
+                body: JSON.stringify({
+                    ...itemUpdate,
+                    name: item
+                }),
             })
 
-            if(resp.status === "204") {
-                setList(prev => prev[listId].todos.map(t => t.id === todoUpate.id ? todoUpate : t))
+            if(resp.status ===  200) {
+                dispatch(editTodo({
+                    listId: listId,
+                    todo: itemUpdate
+                }))
+                setLoading(false)
             }
 
-            setTodoItem("")
             setEditing(false)
+            setItem("")
+            setItemUpdate({id: null, name: "", completed: false, listId: listId})
 
         } catch(e) {
+            setLoading(false)
             console.error(e)
         }
     }
@@ -87,15 +97,15 @@ export const List = ({listId, name, todos, setList}) => {
         <article>
             <section>
                 <h2>{name}</h2>
-                <img src="" alt="remove-icon" onClick={deleteList}/>
+                <img src="" alt="remove-icon" onClick={onDeleteList}/>
             </section>
 
             <section>
                 <Form
-                    valueTitle={ editing ? "Editar" : "Crear"}
+                    valueTitle={ loading ? "Loading..." :  editing ? "Editar" : "Crear" }
                     placeholder="Ingresa un todo"
-                    value={ todoItem }
-                    setValue={setTodoItem}
+                    value={ item }
+                    setValue={ setItem }
                     cb={editing ? editTodo : addNewTodo}
                 />
             </section>
@@ -103,11 +113,10 @@ export const List = ({listId, name, todos, setList}) => {
             <section>
                 <Table
                     todos={ todos }
-                    setList={setList}
                     listId={listId}
-                    setEditing={setEditing}
-                    setItem={setTodoItem}
-                    setTodoUpdate={ setTodoUpdate}
+                    setEditing={ setEditing }
+                    setItemUpdate={ setItemUpdate }
+                    setItem={ setItem }
                 />
             </section>
 

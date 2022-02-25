@@ -1,4 +1,8 @@
-import { useEffect, useState } from "react"
+import { useState, useContext } from "react"
+//context -store
+import { Store } from '../context/AppContext'
+//actions
+import { addList,setLoading, setError } from '../actions'
 //components
 import { List } from './List'
 import { Form } from "./Form"
@@ -43,21 +47,12 @@ const data = [
 
 
 export const Dashboard = () => {
+    const { state: { lists, error, loading }, dispatch } = useContext(Store)
     const [ newList, setNewList] = useState("")
-    const [ list, setList] = useState([])
 
-    const getList = async() => {
-        try {
-            const resp = await fetch(`${HOST_API}/lists`)
-            const listResp = await resp.json()
-
-            setList(listResp)
-        }catch(e) {
-            console.error(e)
-        }
-    }
 
     const addNewList = async() => {
+        dispatch(setLoading(true))
         try {
             const resp = await fetch(`${HOST_API}/lists`, {
                 method: "POST",
@@ -69,27 +64,25 @@ export const Dashboard = () => {
 
             const listcreated = await resp.json()
 
-
-            if(resp.status === "201") {
-                setList(list.concat(listcreated))
+            if(resp.status === 201) {
+                dispatch(addList(listcreated))
+                dispatch(setLoading(false))
             }
+
 
             setNewList("")
         } catch(e) {
-            console.error(e)
+            dispatch(setLoading(false))
+            dispatch(setError("SomeThing went wrong"))
         }
     }
 
-
-    useEffect(() => {
-        getList()
-    },[])
 
     return(
         <section>
             <section>
                 <Form
-                    valueTitle="Crear Lista"
+                    valueTitle={ loading ? "Loading" : "Crear"}
                     placeholder="Ingresa una lista"
                     value={newList}
                     setValue={setNewList}
@@ -98,16 +91,20 @@ export const Dashboard = () => {
             </section>
 
             <section>
+                { error && <h2>{error}</h2>}
+                { loading && <h2>Loading...</h2>}
                 {
-                    list && list.map(l => (
-                        <List
-                            key={l.id}
-                            listId={l.id}
-                            todos={ l.todos}
-                            name={l.name}
-                            setList={setList}
-                        />
-                    ))
+                    (!error && !loading && lists)
+                    ?
+                        lists.map(l => (
+                            <List
+                                key={l.id}
+                                listId={l.id}
+                                todos={ l.todos}
+                                name={l.name}
+                            />
+                        ))
+                    : <h2>Crea la primera lista!</h2>
                 }
             </section>
         </section>

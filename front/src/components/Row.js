@@ -1,8 +1,10 @@
-export const Row = ({todo, onDelete, activeUpdate, setCheck}) => {
+export const Row = ({todo, onDelete, onEditItemTodo, onEditCompletedTodo}) => {
 
     const onHandleChange = (event) => {
-        setCheck(event.target.checked)
+        todo.completed = event.target.checked
+        onEditCompletedTodo(todo)
     }
+
 
     const decorationDone = {
         textDecoration: 'line-through'
@@ -23,7 +25,7 @@ export const Row = ({todo, onDelete, activeUpdate, setCheck}) => {
                 <button onClick={() => onDelete(todo.id)}>Eliminar</button>
             </td>
             <td>
-                <button onClick={ () => activeUpdate(todo) }>Editar</button>
+                <button onClick={ () => onEditItemTodo(todo)}>Editar</button>
             </td>
         </tr>
     )
