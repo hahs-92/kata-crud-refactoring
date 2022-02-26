@@ -54,7 +54,6 @@ export const Dashboard = () => {
     return(
         <main className={ style.Dashboard }>
             <h1 className={style.Dashboard_Title }>Lista de Todos</h1>
-            <hr className={ style.Dashboard_Hr} />
 
             <Form
                 valueTitle={ loading ? "Loading" : "Crear"}

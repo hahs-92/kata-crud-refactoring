@@ -5,6 +5,9 @@ import {  Store } from '../context/AppContext'
 import { deleteTodo, editTodo } from '../actions'
 //components
 import { Row } from "./Row"
+//styles
+import style from '../styles/components/Table.module.css'
+
 //api-url
 const HOST_API = "http://192.168.0.105:8081/api"
 
@@ -62,31 +65,36 @@ export const Table = ({todos, listId, setEditing, setItemUpdate, setItem}) => {
     }
 
     return (
-        <div>
-            <table >
-                <thead>
-                    <tr>
-                    <td>ID</td>
-                    <td>Tarea</td>
-                    <td>¿Completado?</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        (todos && todos.length)
-                            ? todos.map((todo) => (
-                                <Row
-                                    key={todo.id}
-                                    todo={todo}
-                                    onDelete={ onDeleteTodo }
-                                    onEditItemTodo= { onEditItemTodo}
-                                    onEditCompletedTodo={ onEditCompletedTodo}
-                                />
-                            ))
-                            : <span>Crea tu primer todo</span>
-                    }
-                </tbody>
-            </table>
-      </div>
+        <article className={ style.Table }>
+
+            <section className={ style.Table_Column }>
+                <h3>ID</h3>
+            </section>
+
+            <section>
+                <h3>Tarea</h3>
+            </section>
+
+            <section>
+                <h3>&#x2713;</h3>
+            </section>
+
+            < >
+                {
+                    (todos && todos.length)
+                        ? todos.map((todo) => (
+                            <Row
+                                key={todo.id}
+                                todo={todo}
+                                onDelete={ onDeleteTodo }
+                                onEditItemTodo= { onEditItemTodo}
+                                onEditCompletedTodo={ onEditCompletedTodo}
+                            />
+                        ))
+                        : <span className={ style.Table_Advice}>Crea tu primer todo</span>
+                }
+
+            </>
+      </article>
     )
 }

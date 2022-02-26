@@ -5,10 +5,6 @@
 
 .Dashboard_Title {
     margin: 2rem 0;
-}
-
-.Dashboard_Hr {
-    height: 1.5px;
-    background-color: var(--cta-color);
-    border: none;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--cta-color);
 }
