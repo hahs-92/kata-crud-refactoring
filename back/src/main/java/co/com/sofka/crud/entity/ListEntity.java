@@ -57,5 +57,4 @@ public class ListEntity {
         this.todos = todos;
     }
 
-
 }

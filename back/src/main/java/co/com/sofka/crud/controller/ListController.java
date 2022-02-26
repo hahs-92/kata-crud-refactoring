@@ -1,18 +1,18 @@
 package co.com.sofka.crud.controller;
 
 import co.com.sofka.crud.dto.ListDto;
-import co.com.sofka.crud.dto.TodoDto;
 import co.com.sofka.crud.service.ListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @RequestMapping("/lists")
 public class ListController {
 
@@ -29,7 +29,7 @@ public class ListController {
     }
 
     @PostMapping
-    public ResponseEntity<ListDto> save(@RequestBody ListDto listDto) {
+    public ResponseEntity<ListDto> save(@Valid @RequestBody ListDto listDto) {
         try {
             return  new ResponseEntity<>(service.save(listDto), HttpStatus.CREATED);
         } catch (Exception e) {
@@ -38,7 +38,7 @@ public class ListController {
     }
 
     @PutMapping
-    public ResponseEntity<ListDto> update(@RequestBody ListDto listDto){
+    public ResponseEntity<ListDto> update(@Valid @RequestBody ListDto listDto){
         try {
             Optional<ListDto> listToUpdate = service.get(listDto.getId());
 

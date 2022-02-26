@@ -13,7 +13,6 @@ public class TodoDto {
 
     private Boolean completed;
 
-    @NotBlank
     private Long listId;
 
 

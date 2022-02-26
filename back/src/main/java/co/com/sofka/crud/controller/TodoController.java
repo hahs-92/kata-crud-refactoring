@@ -7,11 +7,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @RequestMapping("/todos")
 public class TodoController {
 
@@ -28,7 +29,7 @@ public class TodoController {
     }
     
     @PostMapping
-    public ResponseEntity<TodoDto> save(@RequestBody TodoDto todo){
+    public ResponseEntity<TodoDto> save(@Valid @RequestBody TodoDto todo){
         try {
             return  new ResponseEntity<>(service.save(todo), HttpStatus.CREATED);
         } catch (Exception e) {
@@ -37,7 +38,7 @@ public class TodoController {
     }
 
     @PutMapping
-    public ResponseEntity<TodoDto> update(@RequestBody TodoDto todo){
+    public ResponseEntity<TodoDto> update(@Valid @RequestBody TodoDto todo){
        try {
            Optional<TodoDto> todoToUpdate = service.get(todo.getId());
 
@@ -81,5 +82,4 @@ public class TodoController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 }
