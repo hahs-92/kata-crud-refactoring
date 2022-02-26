@@ -2,7 +2,7 @@ import { useState, useContext } from 'react'
 //context -store
 import {  Store } from '../context/AppContext'
 //actions
-import { deleteList, addTodo, editTodo } from '../actions'
+import { deleteList, addTodo, editTodo, setError } from '../actions'
 //components
 import { Table } from './Table'
 import { Form } from './Form'
@@ -21,6 +21,7 @@ export const List = ({listId, name, todos}) => {
     const [ loading, setLoading ] = useState(false)
     const [ item, setItem ] = useState("")
     const [ itemUpdate, setItemUpdate] = useState({id: null, name:"", completed:false, listId: listId})
+    const [ alert, setAlert ] = useState(null)
 
     const onDeleteList = async() => {
         try {
@@ -37,7 +38,16 @@ export const List = ({listId, name, todos}) => {
     }
 
     const addNewTodo = async () => {
-        if(!item.trim()) return false
+        if(!item.trim()) {
+            setAlert("Ingresa un todo, por favor")
+            return false
+        }
+
+        if(item.length > 24) {
+            setAlert("Todo no valido!")
+            return false
+        }
+
         setLoading(true)
         console.log("todo to create: ", item)
         try {
@@ -59,15 +69,28 @@ export const List = ({listId, name, todos}) => {
             }
 
             setItem("")
+            setAlert(null)
+            setError(null)
 
         } catch(e) {
             setLoading(false)
+            setError("Something went wrong!")
         }
     }
 
 
 
     const onEditTodo = async()  => {
+        if(!item.trim()) {
+            setAlert("Ingresa un todo, por favor")
+            return false
+        }
+
+        if(item.length > 24) {
+            setAlert("Todo no valido!")
+            return false
+        }
+
         setLoading(true)
 
         try {
@@ -93,10 +116,12 @@ export const List = ({listId, name, todos}) => {
             setEditing(false)
             setItem("")
             setItemUpdate({id: null, name: "", completed: false, listId: listId})
+            setError(null)
+            setAlert(null)
 
         } catch(e) {
             setLoading(false)
-            console.error(e)
+            setError("Something went wrong!")
         }
     }
 
@@ -115,6 +140,8 @@ export const List = ({listId, name, todos}) => {
                 setValue={ setItem }
                 cb={editing ? onEditTodo : addNewTodo}
             />
+
+            <span className={ style.List_Alarm }>{ alert && alert }</span>
 
             <>
                 {

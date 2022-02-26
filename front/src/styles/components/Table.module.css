@@ -1,6 +1,7 @@
 .Table {
     display: grid;
     grid-template: 3rem 3rem auto / 15% 55% 10% 20%;
+    margin-top: 1rem;
 }
 
 .Table_Advice {

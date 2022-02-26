@@ -17,10 +17,19 @@ export const Dashboard = () => {
     const { state: { lists, error }, dispatch } = useContext(Store)
     const [ loading, setLoading ] = useState(false)
     const [ newList, setNewList] = useState("")
+    const [ alert, setAlert ] = useState(null)
 
 
     const addNewList = async() => {
-        if(!newList.trim()) return false
+        if(!newList.trim()) {
+            setAlert("Ingresa una lista, por favor!")
+            return false
+        }
+
+        if(newList.length > 24) {
+            setAlert("Lista no valida, intenta otra vez")
+            return false
+        }
 
         setLoading(true)
         try {
@@ -44,6 +53,7 @@ export const Dashboard = () => {
 
 
             setNewList("")
+            setAlert(null)
         } catch(e) {
             setLoading(false)
             dispatch(setError("SomeThing went wrong"))
@@ -62,6 +72,8 @@ export const Dashboard = () => {
                 setValue={setNewList}
                 cb={addNewList}
             />
+
+            <span className={style.Alert }>{alert && alert }</span>
 
             <>
                 { error && <h2>{error}</h2>}

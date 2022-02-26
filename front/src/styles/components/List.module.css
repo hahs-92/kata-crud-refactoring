@@ -1,7 +1,7 @@
 .List  {
     position: relative;
     padding: 1rem;
-    margin: 3rem 0 5rem 0;
+    margin: 8rem 0 5rem 0;
     background-color: var(--secundary-color);
     border-radius: 1rem;
 }
@@ -19,4 +19,8 @@
     margin: 1rem 0;
     width: 4rem;
     cursor: pointer;
+}
+
+.List_Alarm {
+    color: var(--danger );
 }
