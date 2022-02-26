@@ -12,3 +12,7 @@
 .Header_Wrapper {
     width: 90%;
 }
+
+.Header_Wrapper img {
+    width: 12rem;
+}

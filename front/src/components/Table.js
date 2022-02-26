@@ -79,7 +79,7 @@ export const Table = ({todos, listId, setEditing, setItemUpdate, setItem}) => {
                 <h3>&#x2713;</h3>
             </section>
 
-            < >
+            <section className={ style.Table_Rows } >
                 {
                     (todos && todos.length)
                         ? todos.map((todo) => (
@@ -94,7 +94,7 @@ export const Table = ({todos, listId, setEditing, setItemUpdate, setItem}) => {
                         : <span className={ style.Table_Advice}>Crea tu primer todo</span>
                 }
 
-            </>
+            </section >
       </article>
     )
 }

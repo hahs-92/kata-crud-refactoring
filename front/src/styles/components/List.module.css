@@ -18,4 +18,5 @@
 .List_Header img {
     margin: 1rem 0;
     width: 4rem;
+    cursor: pointer;
 }

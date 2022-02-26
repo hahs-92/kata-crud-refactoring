@@ -1,0 +1,28 @@
+.Row  {
+    display: grid;
+    grid-template: 100% / 15% 55% 10% 20%;
+    padding: 0.8rem 0;
+}
+
+.Row_Buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.Row_Buttons img {
+    display: flex;
+    justify-content: space-between;
+    width: 3rem;
+    cursor: pointer;
+
+}
+
+.Row_Buttons button {
+    background-color: transparent;
+    border: none;
+}
+
+.Row_Item {
+    display: flex;
+    align-items: center;
+}

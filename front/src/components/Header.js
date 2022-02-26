@@ -1,11 +1,13 @@
 //styles
 import style  from '../styles/components/Header.module.css'
+//assets
+import sofkaIcon from '../assets/sofka.png'
 
 export const Header = () => {
     return (
         <header className={ style.Header }>
             <section className={ style.Header_Wrapper}>
-                <h1>SofkaU</h1>
+                <img src={sofkaIcon} alt="sofka_icon" />
             </section>
         </header>
     )
