@@ -17,6 +17,10 @@
     color: var(--danger);
 }
 
+.NotContent {
+    margin-top: 2rem;
+}
+
 .Dashboard_Lists {
     display: grid;
     grid-template-columns: repeat(auto-fit,minmax(280px,1fr));

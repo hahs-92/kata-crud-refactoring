@@ -4,8 +4,7 @@ export const Form = ({
         placeholder,
         valueTitle,
         value,setValue,
-        cb,
-        desktop
+        cb
     }) => {
 
 
@@ -21,7 +20,7 @@ export const Form = ({
     return (
         <form className={style.Form } onSubmit={ handleOnSubmit }>
         <input
-            className={ !desktop ? `${style.Form_Input }` :`${style.Form_Input } ${ style.Desktop }` }
+            className={ style.Form_Input }
             type="text"
             name="name"
             placeholder={ placeholder }
@@ -31,7 +30,7 @@ export const Form = ({
         </input>
 
         <input
-            className={!desktop ? `${style.Form_Button }` :`${style.Form_Button } ${ style.Desktop }`}
+            className={style.Form_Button }
             type="submit"
             value={ valueTitle }
         />

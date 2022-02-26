@@ -2,6 +2,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
+    margin-top: 3rem;
     width: 100%;
 }
 
@@ -28,11 +29,11 @@
 
 @media (min-width: 450px) {
 
-    .Form_Input.Desktop  {
+    .Form_Input  {
         max-width: 70%;
     }
 
-    .Form_Button.Desktop {
+    .Form_Button {
         max-width: 25%;
     }
 }

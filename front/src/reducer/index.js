@@ -5,7 +5,7 @@ import { actionTypes } from '../actions/actionTypes'
 function reducer(state, action) {
     switch (action.type) {
         case actionTypes.SET_INITIAL_STATE:
-            console.log("initaal")
+            console.log("redux ", action.payload )
             return {
                 ...state,
                 lists: action.payload
@@ -21,7 +21,6 @@ function reducer(state, action) {
                 loading: action.payload
             }
         case actionTypes.ADD_LIST:
-            console.log("add list")
             return {
                 ...state,
                 lists: [
@@ -30,6 +29,7 @@ function reducer(state, action) {
                 ]
             }
         case actionTypes.DELETE_LIST:
+            console.log("delte ", action.payload)
             return {
                 ...state,
                 lists: state.lists.filter(list => list.id !== action.payload)
@@ -49,6 +49,7 @@ function reducer(state, action) {
                 )
             }
         case actionTypes.EDIT_TODO:
+            console.log(action.payload)
             const listIndex = state.lists.findIndex(l => l.id === action.payload.listId)
             const todoIndex = state.lists[listIndex].todos.findIndex(t => t.id === action.payload.todo.id)
             return {

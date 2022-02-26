@@ -6,11 +6,10 @@ import { addList, setError } from '../actions'
 //components
 import { List } from './List'
 import { Form } from "./Form"
+//custom hooks
+import { useCrud } from '../hooks/useCrud'
 //styles
 import style from '../styles/components/Dashboard.module.css'
-
-//url-api
-const HOST_API = "http://192.168.0.105:8081/api"
 
 
 export const Dashboard = () => {
@@ -18,9 +17,11 @@ export const Dashboard = () => {
     const [ loading, setLoading ] = useState(false)
     const [ newList, setNewList] = useState("")
     const [ alert, setAlert ] = useState(null)
+    const { post } = useCrud()
 
 
-    const addNewList = async() => {
+    const addNewList = () => {
+
         if(!newList.trim()) {
             setAlert("Ingresa una lista, por favor!")
           return false
@@ -32,34 +33,19 @@ export const Dashboard = () => {
         }
 
         setLoading(true)
-        try {
-            const resp = await fetch(`${HOST_API}/lists`, {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ name: newList}),
-            })
 
-            const listcreated = await resp.json()
-
-            if(resp.status === 201) {
-                dispatch(addList({
-                    ...listcreated,
-                    todos: []
-                }))
-                setLoading(false)
-            }
-
-
-            setNewList("")
-            setAlert(null)
-        } catch(e) {
+        post({query: "lists", payload: { name: newList}},(err,data) => {
+            dispatch(addList({
+                ...data,
+                todos: []
+            }))
+            dispatch(setError(err))
             setLoading(false)
-            dispatch(setError("SomeThing went wrong"))
-        }
-    }
+        })
 
+        setNewList("")
+        setAlert(null)
+    }
 
     return(
         <main className={ style.Dashboard }>
@@ -72,7 +58,6 @@ export const Dashboard = () => {
                     value={newList}
                     setValue={setNewList}
                     cb={addNewList}
-                    desktop={true}
                 />
             </section>
 
@@ -91,7 +76,7 @@ export const Dashboard = () => {
                                 name={l.name}
                             />
                         ))
-                    :  <h2>No hay ninguna lista, crea una!</h2>
+                    :  <h2 className={ style.NotContent }>No hay ninguna lista, crea una!</h2>
                 }
             </section>
         </main>

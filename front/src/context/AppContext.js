@@ -3,9 +3,9 @@ import { createContext, useReducer, useEffect } from 'react'
 import reducer from '../reducer'
 //acyions
 import {setInitialState, setError, setLoading} from '../actions'
+//custom hooks
+import { useCrud } from '../hooks/useCrud'
 
-//api-url
-const HOST_API = "http://192.168.0.105:8081/api"
 
 const initialState = {
     lists: [],
@@ -19,26 +19,20 @@ export const Store = createContext(initialState)
 
 const StoreProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState);
+    const {get} = useCrud()
 
-
-    const getList = async() => {
-        dispatch(setLoading(true))
-        try {
-            const resp = await fetch(`${HOST_API}/lists`)
-            const listResp = await resp.json()
-
-            dispatch(setInitialState(listResp))
-            dispatch(setLoading(false))
-
-        }catch(e) {
-            dispatch(setLoading(false))
-            dispatch(setError("Someting went wrong!, Try again later"))
-        }
+    const handleFetch = (err, data) => {
+        dispatch(setInitialState(data))
+        dispatch(setLoading(false))
+        dispatch(setError(err))
     }
 
+
     useEffect(() => {
-        getList()
+        dispatch(setLoading(true))
+        get({method: "GET", query: "lists"},handleFetch)
     },[])
+
 
     return (
         <Store.Provider value={{ state, dispatch }}>

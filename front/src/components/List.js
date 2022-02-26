@@ -6,12 +6,12 @@ import { deleteList, addTodo, editTodo, setError } from '../actions'
 //components
 import { Table } from './Table'
 import { Form } from './Form'
+//custom-hooks
+import { useCrud } from '../hooks/useCrud'
 //styles
 import style from '../styles/components/List.module.css'
 //assets
 import removeIcon from '../assets/remove.png'
-//url-api
-const HOST_API = "http://192.168.0.105:8081/api"
 
 
 
@@ -22,22 +22,15 @@ export const List = ({listId, name, todos}) => {
     const [ item, setItem ] = useState("")
     const [ itemUpdate, setItemUpdate] = useState({id: null, name:"", completed:false, listId: listId})
     const [ alert, setAlert ] = useState(null)
+    const { remove, post, udpate } = useCrud()
 
-    const onDeleteList = async() => {
-        try {
-            const resp = await fetch(`${HOST_API}/lists/${listId}`, {
-                method: "DELETE"
-            })
-
-            if(resp.status === 204) {
-                dispatch(deleteList(listId))
-            }
-        } catch(e) {
-            console.log(e)
-        }
+    const onDeleteList = () => {
+        remove({query:"lists", param:listId},(err, data) => {
+            dispatch(deleteList(listId))
+        })
     }
 
-    const addNewTodo = async () => {
+    const addNewTodo = () => {
         if(!item.trim()) {
             setAlert("Ingresa un todo, por favor")
             return false
@@ -49,38 +42,19 @@ export const List = ({listId, name, todos}) => {
         }
 
         setLoading(true)
-        console.log("todo to create: ", item)
-        try {
-            const resp = await fetch(`${HOST_API}/todos`, {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(
-                    {name: item,listId}
-                ),
-            })
-
-            const todoCreated = await resp.json()
-
-            if(resp.status === 201) {
-               dispatch(addTodo({ listId: listId, todo: todoCreated}))
-               setLoading(false)
-            }
-
-            setItem("")
-            setAlert(null)
-            setError(null)
-
-        } catch(e) {
+        post({ query:"todos",payload:{name: item,listId} }, (err, data) => {
+            dispatch(addTodo({ listId: listId, todo: data}))
             setLoading(false)
-            setError("Something went wrong!")
-        }
+            setError(err)
+        })
+
+        setItem("")
+        setAlert(null)
     }
 
 
 
-    const onEditTodo = async()  => {
+    const onEditTodo = ()  => {
         if(!item.trim()) {
             setAlert("Ingresa un todo, por favor")
             return false
@@ -93,36 +67,20 @@ export const List = ({listId, name, todos}) => {
 
         setLoading(true)
 
-        try {
-            const resp =  await fetch(`${HOST_API}/todos`, {
-                method: "PUT",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    ...itemUpdate,
-                    name: item
-                })
-            })
+        udpate({query: "todos", payload: {...itemUpdate,name: item}}, (err, data) => {
+            dispatch(editTodo({
+                listId: listId,
+                todo: data
+            }))
 
-            if(resp.status ===  200) {
-                dispatch(editTodo({
-                    listId: listId,
-                    todo: { ...itemUpdate, name: item}
-                }))
-                setLoading(false)
-            }
-
-            setEditing(false)
-            setItem("")
-            setItemUpdate({id: null, name: "", completed: false, listId: listId})
-            setError(null)
-            setAlert(null)
-
-        } catch(e) {
             setLoading(false)
-            setError("Something went wrong!")
-        }
+            setError(err)
+        })
+
+        setEditing(false)
+        setItem("")
+        setItemUpdate({id: null, name: "", completed: false, listId: listId})
+        setAlert(null)
     }
 
 
