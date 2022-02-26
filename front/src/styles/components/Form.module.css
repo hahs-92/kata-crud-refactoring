@@ -28,11 +28,11 @@
 
 @media (min-width: 450px) {
 
-    .Form_Input {
+    .Form_Input.Desktop  {
         max-width: 70%;
     }
 
-    .Form_Button {
+    .Form_Button.Desktop {
         max-width: 25%;
     }
 }

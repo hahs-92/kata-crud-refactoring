@@ -12,7 +12,7 @@
 .Row_Buttons img {
     display: flex;
     justify-content: space-between;
-    width: 3rem;
+    width: 2.5rem;
     cursor: pointer;
 
 }
@@ -25,4 +25,11 @@
 .Row_Item {
     display: flex;
     align-items: center;
+    overflow: hidden;
+}
+
+.Row_Item h4 {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }

@@ -1,6 +1,6 @@
 .Dashboard {
     width: 90%;
-    max-width: 50rem;
+    max-width: 150rem;
 }
 
 .Dashboard_Title {
@@ -9,6 +9,17 @@
     border-bottom: 1px solid var(--cta-color);
 }
 
+.Form_Wrapper {
+    max-width: 50rem;
+}
+
 .Alert {
     color: var(--danger);
+}
+
+.Dashboard_Lists {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+    grid-auto-rows: auto;
+    grid-gap: 12px;
 }

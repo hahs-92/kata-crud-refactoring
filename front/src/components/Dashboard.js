@@ -23,7 +23,7 @@ export const Dashboard = () => {
     const addNewList = async() => {
         if(!newList.trim()) {
             setAlert("Ingresa una lista, por favor!")
-            return false
+          return false
         }
 
         if(newList.length > 24) {
@@ -65,17 +65,20 @@ export const Dashboard = () => {
         <main className={ style.Dashboard }>
             <h1 className={style.Dashboard_Title }>Lista de Todos</h1>
 
-            <Form
-                valueTitle={ loading ? "Loading" : "Crear"}
-                placeholder="Ingresa una lista"
-                value={newList}
-                setValue={setNewList}
-                cb={addNewList}
-            />
+            <section className={style.Form_Wrapper }>
+                <Form
+                    valueTitle={ loading ? "Loading" : "Crear"}
+                    placeholder="Ingresa una lista"
+                    value={newList}
+                    setValue={setNewList}
+                    cb={addNewList}
+                    desktop={true}
+                />
+            </section>
 
             <span className={style.Alert }>{alert && alert }</span>
 
-            <>
+            <section className={ style.Dashboard_Lists}>
                 { error && <h2>{error}</h2>}
                 {
                     (!error  && lists.length)
@@ -90,7 +93,7 @@ export const Dashboard = () => {
                         ))
                     :  <h2>No hay ninguna lista, crea una!</h2>
                 }
-            </>
+            </section>
         </main>
     )
 }

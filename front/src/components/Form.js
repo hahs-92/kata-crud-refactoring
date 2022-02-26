@@ -1,8 +1,13 @@
 import style from '../styles/components/Form.module.css'
 
 export const Form = ({
-     placeholder, valueTitle, value,setValue, cb
+        placeholder,
+        valueTitle,
+        value,setValue,
+        cb,
+        desktop
     }) => {
+
 
     const handleOnChange = (e) => {
         setValue(e.target.value)
@@ -16,7 +21,7 @@ export const Form = ({
     return (
         <form className={style.Form } onSubmit={ handleOnSubmit }>
         <input
-            className={style.Form_Input}
+            className={ !desktop ? `${style.Form_Input }` :`${style.Form_Input } ${ style.Desktop }` }
             type="text"
             name="name"
             placeholder={ placeholder }
@@ -25,7 +30,11 @@ export const Form = ({
         >
         </input>
 
-        <input className={style.Form_Button } type="submit"  value={ valueTitle } />
+        <input
+            className={!desktop ? `${style.Form_Button }` :`${style.Form_Button } ${ style.Desktop }`}
+            type="submit"
+            value={ valueTitle }
+        />
 
         </form>
     )
