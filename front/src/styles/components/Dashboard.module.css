@@ -26,4 +26,12 @@
     grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
     grid-auto-rows: auto;
     grid-gap: 12px;
+    justify-content: center;
+}
+
+
+@media (min-width: 1020px) {
+    .Dashboard_Lists {
+        grid-template-columns: repeat(auto-fit,minmax(420px,1fr));
+    }
 }

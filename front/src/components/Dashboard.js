@@ -13,7 +13,7 @@ import style from '../styles/components/Dashboard.module.css'
 
 
 export const Dashboard = () => {
-    const { state: { lists, error }, dispatch } = useContext(Store)
+    const { state: { lists, error, loading: loadGlobal }, dispatch } = useContext(Store)
     const [ loading, setLoading ] = useState(false)
     const [ newList, setNewList] = useState("")
     const [ alert, setAlert ] = useState(null)
@@ -47,6 +47,10 @@ export const Dashboard = () => {
         setAlert(null)
     }
 
+   const handleViewError = () => {
+        if(error) return <h2>{error}</h2>
+   }
+
     return(
         <main className={ style.Dashboard }>
             <h1 className={style.Dashboard_Title }>Lista de Todos</h1>
@@ -64,10 +68,11 @@ export const Dashboard = () => {
             <span className={style.Alert }>{alert && alert }</span>
 
             <section className={ style.Dashboard_Lists}>
-                { error && <h2>{error}</h2>}
+                { handleViewError() }
+                { loadGlobal && <h2>Loading...</h2>}
                 {
-                    (!error  && lists.length)
-                    ?
+                    (!loadGlobal && lists.length > 0)
+                    &&
                         lists.map(l => (
                             <List
                                 key={l.id}
@@ -75,8 +80,15 @@ export const Dashboard = () => {
                                 todos={ l.todos}
                                 name={l.name}
                             />
-                        ))
-                    :  <h2 className={ style.NotContent }>No hay ninguna lista, crea una!</h2>
+                    ))
+                }
+                {
+                    (!loadGlobal && !lists.length)
+                    &&
+                        <h2
+                            className={ style.NotContent }>
+                            No hay ninguna lista, crea una!
+                        </h2>
                 }
             </section>
         </main>

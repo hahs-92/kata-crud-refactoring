@@ -1,11 +1,11 @@
 .List  {
     position: relative;
     padding: 1rem;
-    margin: 8rem 0 5rem 0;
+    margin: 4rem 0 2rem 0;
     background-color: var(--secundary-color);
     border-radius: 1rem;
     height: fit-content;
-    max-width: 55rem;
+    max-width: 45rem;
 }
 
 .List_Header {
@@ -26,3 +26,4 @@
 .List_Alarm {
     color: var(--danger );
 }
+
